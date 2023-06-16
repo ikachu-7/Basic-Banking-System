@@ -10,14 +10,14 @@ const Footer = () => {
             <span className="ml-3 text-xl">😁Vivek</span>
           </NavLink>
           <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
-            © 2020 Copyrighted —
+            © 2023 Copyrighted —
             <a
               href="https://twitter.com/knyttneve"
               className="text-gray-600 ml-1"
               rel="noopener noreferrer"
               target="_blank"
             >
-              @knyttneve
+              @hexagon_populate
             </a>
           </p>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">

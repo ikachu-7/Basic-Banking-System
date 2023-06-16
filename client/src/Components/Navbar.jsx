@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <nav className="nav-bar">
-        <img src="logo.svg" alt="nav" />
+      <h1 className="navbar-logo"><span style={{fontSize:"40px"}}>🏦</span> Silvergate</h1>
         <div className="nav-items">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/history">History</NavLink>

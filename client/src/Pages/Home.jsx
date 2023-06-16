@@ -26,12 +26,12 @@ const Home = () => {
             <button onClick={handleSubmit}>View All customers</button>
           </div>
           <div className="hero-img-container">
-            <img src="image-mockups.png" alt="hero"/>
+            <img src="Home.jpg" alt="hero"/>
           </div>
         </header>
         <div className="why-container">
           <section className="why-us">
-            <h1>Why choose Easybank?</h1>
+            <h1>Why choose Silvergate?</h1>
             <p>
               We leverage open banking to turn your bank account into your
               financial hub.

@@ -15,13 +15,14 @@ const Transaction = () => {
  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     try {
       const res = await axios.post("/updateUser",{from,name,senderemail,getteremail,bankname,updateBalance});
-      if(res.status === 200) {
+      if(res && res.status === 200) {
         alert(res.data.msg);
         navigate('/allusers');
       } 
-      if(res.status === 205) {
+      if(res && res.status === 206) {
         alert(res.data.msg);
       }
     } catch (error) {

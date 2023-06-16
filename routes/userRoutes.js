@@ -44,7 +44,7 @@ router.post('/userdata',async (req,res) => {
 })
 router.get('/getAllusers',async (req,res) => {
     try {
-        const allusers = await userModel.find({});
+        const allusers = await userModel.find({}).sort({createdAt:-1});
         if(!allusers) {
             return res.status(400).send({
                 success: false,
@@ -68,7 +68,7 @@ router.post('/updateUser',async (req,res) => {
     try {
         const {from,name,senderemail,getteremail,bankname,updateBalance} = req.body;
         if(!from || !name || !senderemail || !getteremail || !bankname || !updateBalance) {
-            return res.status(400).send({
+            return res.status(206).send({
                 success: false,
                 msg: "Please fill all the fields"
             });
@@ -80,7 +80,7 @@ router.post('/updateUser',async (req,res) => {
 
         const exist = await userModel.findOne({name ,email:getteremail, bankName: bankname});
         if(!exist) {
-            return res.status(205).send({
+            return res.status(206).send({
                 success: false,
                 msg: `${name} doesn't have account in ${bankname}`
             });
@@ -90,28 +90,28 @@ router.post('/updateUser',async (req,res) => {
             const num = Number(updateBalance);
             const newBalance = num + exist.currentBalance;
             await userModel.findByIdAndUpdate(exist._id,{currentBalance: newBalance});
-            res.status(200).send({
+            return res.status(200).send({
                 success: true,
                 msg: "Transaction successfull"
             });
-        } else if(from_user) {
-            if(from_user.currentBalance >= Number(updateBalance)) {
-                const num = Number(updateBalance);
-                const newBalanceforRecep = num + exist.currentBalance;
-                const newBalanceforSender = from_user.currentBalance - num;
-                await userModel.findByIdAndUpdate(exist._id,{currentBalance: newBalanceforRecep});
-                await userModel.findByIdAndUpdate(from_user._id,{currentBalance: newBalanceforSender});
-                return res.status(200).send({
-                    success: true,
-                    msg: `${num}rs got transfer to ${name}`
-                });
-            } else {
-                return res.status(205).send({
-                    success: false,
-                    msg: `${from} do not have sufficient balance to send`
-                });
-            }       
-        }
+        } 
+        if(from_user.currentBalance >= Number(updateBalance)) {
+            const num = Number(updateBalance);
+            const newBalanceforRecep = num + exist.currentBalance;
+            const newBalanceforSender = from_user.currentBalance - num;
+            await userModel.findByIdAndUpdate(exist._id,{currentBalance: newBalanceforRecep});
+            await userModel.findByIdAndUpdate(from_user._id,{currentBalance: newBalanceforSender});
+            return res.status(200).send({
+                success: true,
+                msg: `${num}rs got transfer to ${name}`
+            });
+        }  
+        if(from_user.currentBalance < Number(updateBalance)) {
+            return res.status(206).send({
+                success: false,
+                msg: `${from} do not have sufficient balance to send`
+            });
+        }      
     } catch (error) {
         console.log(error);
         res.status(400).send({
